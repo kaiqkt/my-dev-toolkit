@@ -20,7 +20,9 @@ Otherwise, run the **Write** flow.
 
 Integration tests simulate the application running in production. The real Spring context is started, real infrastructure (databases, queues) is provided via Testcontainers, and only external third-party HTTP calls are mocked with MockServer.
 
-Every feature must be fully covered end-to-end: request validation, controller behaviour, service business rules, and database persistence.
+**The goal is not code coverage.** Integration tests exist to verify that the system behaves correctly end-to-end — that components integrate properly, that business rules hold under real infrastructure, and that the application produces the right observable outcomes. A test suite with 30 well-designed scenarios that cover real flows is more valuable than 300 tests chasing a coverage percentage.
+
+Write tests for behaviours that matter: request validation, business rule enforcement, persistence correctness, and failure handling. Do not write tests to hit lines.
 
 ---
 
