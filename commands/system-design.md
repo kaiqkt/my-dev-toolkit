@@ -1,6 +1,8 @@
 # Skill: system-design
 
-Guides system design discussions, documents the output, and generates backlog tasks from the result.
+Guides system design discussions, documents the output, and bulk-imports tasks into the backlog from the result.
+
+> `/backlog` is for adding tasks manually one at a time. `/system-design tasks` is for bulk-importing tasks derived from a saved design document.
 
 ## Usage
 

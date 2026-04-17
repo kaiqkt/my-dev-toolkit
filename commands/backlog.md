@@ -1,6 +1,8 @@
 # Skill: backlog
 
-Creates and manages tasks in the project's local backlog following a hierarchical structure of features and contexts.
+Creates and manages tasks manually in the project's local backlog following a hierarchical structure of features and contexts.
+
+> For bulk task generation from a system design document, use `/system-design tasks [topic]` instead.
 
 ## Usage
 
