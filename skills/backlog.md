@@ -1,104 +1,104 @@
 # Skill: backlog
 
-Cria e gerencia tarefas no backlog local do projeto seguindo uma estrutura hierárquica de features e contextos.
+Creates and manages tasks in the project's local backlog following a hierarchical structure of features and contexts.
 
-## Uso
+## Usage
 
 ```
-/backlog [user story ou descrição da tarefa]
+/backlog [user story or task description]
 ```
 
-## Comportamento
+## Behavior
 
-Ao receber uma solicitação, o agente deve:
+When receiving a request, the agent must:
 
-### 1. Coletar informações
+### 1. Collect information
 
-Se o usuário não fornecer todos os dados necessários, pergunte:
-- **Feature**: qual o agrupamento principal? (ex: `backend`, `frontend`, `infra`)
-- **Contexto**: qual o subdiretório dentro da feature? Pode ser hierárquico (ex: `auth`, `modelagem-de-dados`, `pagamentos/pix`)
-- **Título da tarefa**: nome curto e descritivo
-- **Descrição**: detalhamento do que precisa ser feito
-- **User Story**: no formato "Como [usuário], quero [ação] para que [benefício]."
+If the user does not provide all required data, ask for:
+- **Feature**: what is the main grouping? (e.g., `backend`, `frontend`, `infra`)
+- **Context**: what is the subdirectory within the feature? Can be hierarchical (e.g., `auth`, `data-modeling`, `payments/pix`)
+- **Task title**: short and descriptive name
+- **Description**: details of what needs to be done
+- **User Story**: in the format "As a [user], I want [action] so that [benefit]."
 
-Se o usuário já fornecer uma user story na solicitação, derive o título e a descrição a partir dela. Não pergunte o que já foi informado.
+If the user already provides a user story in the request, derive the title and description from it. Do not ask for information already provided.
 
-### 2. Estrutura de diretórios
+### 2. Directory structure
 
-O backlog fica sempre em `/docs/backlog/` relativo à raiz do projeto.
+The backlog always lives in `/docs/backlog/` relative to the project root.
 
 ```
 docs/backlog/
   index.md
   {feature}/
-    {contexto}/
+    {context}/
       tasks.md
 ```
 
-Exemplos válidos:
+Valid examples:
 - `docs/backlog/backend/auth/tasks.md`
-- `docs/backlog/backend/modelagem-de-dados/tasks.md`
+- `docs/backlog/backend/data-modeling/tasks.md`
 - `docs/backlog/frontend/dashboard/tasks.md`
-- `docs/backlog/backend/pagamentos/pix/tasks.md`
+- `docs/backlog/backend/payments/pix/tasks.md`
 
-Crie os diretórios que não existirem.
+Create any directories that do not exist.
 
-### 3. Formato de uma tarefa
+### 3. Task format
 
-Cada `tasks.md` agrupa as tarefas do contexto. Ao adicionar uma nova tarefa, siga este formato:
+Each `tasks.md` groups tasks for the context. When adding a new task, follow this format:
 
 ```markdown
-## [Título da Tarefa]
+## [Task Title]
 
 **Status:** `todo`
-**Descrição:** [Descrição objetiva do que precisa ser implementado]
-**User Story:** Como [usuário], quero [ação] para que [benefício].
+**Description:** [Objective description of what needs to be implemented]
+**User Story:** As a [user], I want [action] so that [benefit].
 ```
 
-- Status inicial é sempre `todo`
-- Se o arquivo `tasks.md` não existir, crie-o com o cabeçalho abaixo antes das tarefas:
+- The initial status is always `todo`
+- If the `tasks.md` file does not exist, create it with the following header before the tasks:
 
 ```markdown
-# [Nome do Contexto]
+# [Context Name]
 
-> Feature: [nome da feature]
+> Feature: [feature name]
 ```
 
-- Se já existir, apenas acrescente a nova tarefa ao final do arquivo.
+- If it already exists, just append the new task to the end of the file.
 
-### 4. Atualizar o index.md
+### 4. Update index.md
 
-O arquivo `docs/backlog/index.md` é a visão geral do backlog. Deve sempre refletir o estado atual.
+The `docs/backlog/index.md` file is the backlog overview. It must always reflect the current state.
 
-Se não existir, crie-o com esta estrutura:
+If it does not exist, create it with this structure:
 
 ```markdown
 # Backlog
 
-> Índice geral de features e tarefas do projeto.
+> General index of project features and tasks.
 
-## Visão Geral
+## Overview
 
-| Feature | Contexto | Todo | In Progress | Done |
-|---------|----------|------|-------------|------|
+| Feature | Context | Todo | In Progress | Done |
+|---------|---------|------|-------------|------|
 
 ## Features
 
 ```
 
-Ao adicionar ou atualizar uma tarefa:
-1. Leia o `tasks.md` do contexto para contar tarefas por status
-2. Atualize (ou insira) a linha correspondente na tabela `Visão Geral`
-3. Se a feature ainda não aparece na seção `## Features`, adicione um link:
+When adding or updating a task:
+1. Read the context's `tasks.md` to count tasks by status
+2. Update (or insert) the corresponding row in the `Overview` table
+3. If the feature does not yet appear in the `## Features` section, add a link:
 
 ```markdown
 ### [feature]
-- [contexto](feature/contexto/tasks.md)
+- [context](feature/context/tasks.md)
 ```
 
-### 5. Regras gerais
+### 5. General rules
 
-- Nomes de diretórios em **kebab-case** e **minúsculas** (ex: `modelagem-de-dados`, `auth`)
-- Nunca sobrescreva tarefas existentes — apenas acrescente
-- Sempre atualize o `index.md` após criar ou editar qualquer `tasks.md`
-- Se a user story for vaga, mantenha-a como fornecida pelo usuário — não invente detalhes
+- Directory names in **kebab-case** and **lowercase** (e.g., `data-modeling`, `auth`)
+- Never overwrite existing tasks — only append
+- Always update `index.md` after creating or editing any `tasks.md`
+- If the user story is vague, keep it as provided — do not invent details

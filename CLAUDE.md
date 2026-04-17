@@ -1,27 +1,31 @@
 # my-skills
 
-Repositório para armazenar, analisar e criar skills para uso com agents de IA.
+Repository for storing, analyzing, and creating skills for use with AI agents.
 
-## Estrutura
-
-```
-skills/   ← definições das skills (arquivos .md)
-```
-
-As skills são copiadas para `~/.claude/commands/` para uso global no Claude Code.
-
-## Regras
-
-### Após criar ou atualizar uma skill
-
-Sempre realizar commit e push automaticamente após criar ou modificar qualquer arquivo em `skills/`. Usar o formato de commit convencional:
+## Structure
 
 ```
-feat(skills): add <nome-da-skill>
+skills/   ← skill definitions (markdown files)
 ```
 
-ou para atualizações:
+Skills are copied to `~/.claude/commands/` for global use in Claude Code.
+
+## Rules
+
+### Language
+
+All skills must be created and normalized in English — file names, titles, descriptions, instructions, and any other internal content.
+
+### After creating or updating a skill
+
+Always commit and push automatically after creating or modifying any file in `skills/`. Use the conventional commit format:
 
 ```
-fix(skills): update <nome-da-skill>
+feat(skills): add <skill-name>
+```
+
+or for updates:
+
+```
+fix(skills): update <skill-name>
 ```
