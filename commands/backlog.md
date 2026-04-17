@@ -9,11 +9,14 @@ Creates and manages tasks manually in the project's local backlog following a hi
 ```
 /backlog [user story or task description]
 /backlog list
+/backlog status [task title] [new-status]
 ```
 
 ## Behavior
 
-When the command is `/backlog list`, run the **List** flow. Otherwise, run the **Create** flow.
+When the command is `/backlog list`, run the **List** flow.
+When the command starts with `/backlog status`, run the **Status** flow.
+Otherwise, run the **Create** flow.
 
 ---
 
@@ -29,6 +32,22 @@ Read all `tasks.md` files under `docs/backlog/` and output a single markdown tab
 - **Status** is the value of the `**Status:**` field for that task.
 - Sort rows by Feature → Context → order of appearance in the file.
 - If `docs/backlog/` does not exist or contains no tasks, respond with: `No tasks found.`
+
+---
+
+### Status flow
+
+Updates the status of an existing task.
+
+**Valid statuses:** `todo`, `in-progress`, `done`
+
+#### Steps
+
+1. Search all `tasks.md` files under `docs/backlog/` for a `## [Task Title]` heading that matches (case-insensitive, partial match allowed).
+2. If no task is found, respond with: `Task not found.`
+3. If multiple tasks match, list them with their feature/context path and ask the user to be more specific.
+4. Replace the `**Status:**` value for the matched task with the new status.
+5. Update `docs/backlog/index.md` — recount todos, in-progress, and done for the affected context and update the corresponding row in the `Overview` table.
 
 ---
 
