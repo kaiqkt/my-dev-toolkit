@@ -61,7 +61,8 @@ Write the file to the project root using the template below. Fill every section 
 
 ## How to Run
 
-# Install dependencies
+\```bash
+# Start dependencies (PostgreSQL, Redis, Kafka)
 [command]
 
 # Run locally
@@ -70,8 +71,31 @@ Write the file to the project root using the template below. Fill every section 
 # Run tests
 [command]
 
+# Run integration tests (requires Docker)
+[command]
+
 # Build
 [command]
+\```
+
+Example (Spring Boot + Maven):
+
+\```bash
+# Start dependencies (PostgreSQL, Redis, Kafka)
+docker-compose up -d
+
+# Run locally
+./mvnw spring-boot:run -Dspring-boot.run.profiles=local
+
+# Run tests
+./mvnw test
+
+# Run integration tests (requires Docker)
+./mvnw verify -P integration
+
+# Build
+./mvnw clean package -DskipTests
+\```
 
 ## Project Structure
 
