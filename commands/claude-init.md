@@ -114,6 +114,12 @@ Current package layout:
 > Managed via the `/backlog` skill. See [docs/backlog/index.md](docs/backlog/index.md) for the full task list.
 
 [Summary of what is actively being worked on — update as priorities change]
+
+## AI Behavior Rules
+
+- No emojis in code or comments.
+- Keep responses concise and practical.
+- If something being built follows a well-known anti-pattern, warn before proceeding.
 ```
 
 ---
