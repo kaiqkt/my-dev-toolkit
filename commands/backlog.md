@@ -6,9 +6,31 @@ Creates and manages tasks in the project's local backlog following a hierarchica
 
 ```
 /backlog [user story or task description]
+/backlog list
 ```
 
 ## Behavior
+
+When the command is `/backlog list`, run the **List** flow. Otherwise, run the **Create** flow.
+
+---
+
+### List flow
+
+Read all `tasks.md` files under `docs/backlog/` and output a single markdown table:
+
+| Feature | Context | Title | Status |
+|---------|---------|-------|--------|
+
+- **Feature** and **Context** are derived from the file path (`docs/backlog/{feature}/{context}/tasks.md`).
+- **Title** is each `## [Task Title]` heading found in the file.
+- **Status** is the value of the `**Status:**` field for that task.
+- Sort rows by Feature → Context → order of appearance in the file.
+- If `docs/backlog/` does not exist or contains no tasks, respond with: `No tasks found.`
+
+---
+
+### Create flow
 
 When receiving a request, the agent must:
 
