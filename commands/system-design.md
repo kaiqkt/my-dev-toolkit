@@ -1,58 +1,58 @@
----
-description: System design discussion, documentation, and backlog generation
----
+# Skill: system-design
 
-# System Design
+Guides system design discussions, documents the output, and generates backlog tasks from the result.
 
 ## Usage
 
 ```
-/system-design [topic]           — start a new design session
-/system-design refine [topic]    — iterate on an existing design
-/system-design tasks [topic]     — generate backlog tasks from a saved design
+/system-design [topic]
+/system-design refine [topic]
+/system-design tasks [topic]
 ```
+
+## Behavior
+
+When the first argument is `refine`, run the **Refine** flow.
+When the first argument is `tasks`, run the **Tasks** flow.
+Otherwise, run the **Design** flow.
 
 ---
 
-## Subcommand: new session (default)
+### Design flow
 
-Triggered when no subcommand is given, or the first argument is not `refine` or `tasks`.
+Walk through each section below step by step. Ask clarifying questions at each step before moving on. Do not skip sections.
 
-**Topic:** `$ARGUMENTS`
-
-Walk through the framework below step by step. Ask clarifying questions at each step before moving on. Do not skip sections.
-
-### 1. Requirements
+#### 1. Requirements
 - What are the functional requirements?
 - What are the non-functional requirements (latency, throughput, availability, consistency)?
 - What scale are we designing for? (users, requests/sec, data volume)
 
-### 2. High-Level Architecture
+#### 2. High-Level Architecture
 - What are the main components/services?
 - How do they communicate (sync REST/gRPC vs async Kafka/queues)?
 - Draw the architecture using text diagrams.
 
-### 3. Data Design
+#### 3. Data Design
 - What data needs to be stored?
 - SQL vs NoSQL decisions for each entity (and why).
 - Schema design, indexing strategy, partitioning/sharding if needed.
 
-### 4. API Design
+#### 4. API Design
 - Key endpoints between services and to clients.
 - Authentication and authorization approach.
 
-### 5. Scaling & Performance
+#### 5. Scaling & Performance
 - Where are the bottlenecks?
 - Caching strategy (what, where, TTL, invalidation).
 - Database read replicas, connection pooling, query optimization.
 - Horizontal scaling approach.
 
-### 6. Reliability
+#### 6. Reliability
 - Single points of failure and how to eliminate them.
 - Failure modes and graceful degradation.
 - Monitoring, alerting, circuit breakers.
 
-### Save
+#### 7. Save the design
 
 After completing all sections, write the full design to:
 
@@ -60,9 +60,9 @@ After completing all sections, write the full design to:
 docs/system-design/{topic-slug}.md
 ```
 
-Where `{topic-slug}` is the topic in kebab-case lowercase (e.g., `payment-service`, `notification-system`).
+Where `{topic-slug}` is the topic in kebab-case lowercase (e.g., `payment-service`).
 
-File format:
+File structure:
 
 ```markdown
 # System Design: [Topic]
@@ -90,21 +90,19 @@ File format:
 ...
 
 ## Open Questions
-[List any unresolved decisions or trade-offs flagged during the session]
+[Unresolved decisions or trade-offs flagged during the session]
 ```
 
-After saving, ask the user if they want to generate backlog tasks from this design (runs the `tasks` flow).
+After saving, ask the user if they want to generate backlog tasks from this design.
 
 ---
 
-## Subcommand: refine
+### Refine flow
 
-Triggered when the first argument is `refine`. Topic is the remaining argument.
-
-1. Read `docs/system-design/{topic-slug}.md`. If it does not exist, respond with: `No design found for "{topic}". Run /system-design {topic} first.`
-2. Display a summary of the current design (one sentence per section).
-3. Ask the user which section they want to refine, or what new concern to address.
-4. Discuss the refinement interactively, then update the file in place:
+1. Read `docs/system-design/{topic-slug}.md`. If it does not exist, respond: `No design found for "{topic}". Run /system-design {topic} first.`
+2. Show a one-sentence summary per section.
+3. Ask the user which section to refine or what new concern to address.
+4. Discuss interactively, then update the file:
    - Update the relevant section(s).
    - Set `Last updated` to today's date.
    - Append any new unresolved items to `## Open Questions`.
@@ -112,14 +110,12 @@ Triggered when the first argument is `refine`. Topic is the remaining argument.
 
 ---
 
-## Subcommand: tasks
+### Tasks flow
 
-Triggered when the first argument is `tasks`. Topic is the remaining argument.
-
-1. Read `docs/system-design/{topic-slug}.md`. If it does not exist, respond with: `No design found for "{topic}".`
+1. Read `docs/system-design/{topic-slug}.md`. If it does not exist, respond: `No design found for "{topic}".`
 2. Analyze the design and derive concrete implementation tasks.
-3. For each task, infer a feature and context from the design sections (e.g., feature `backend`, context `auth` from the API Design section).
-4. Create each task using the backlog structure at `docs/backlog/`:
+3. For each task, infer feature and context from the design sections (e.g., feature `backend`, context `auth` from API Design).
+4. Create tasks following the backlog structure at `docs/backlog/`:
 
 ```
 docs/backlog/{feature}/{context}/tasks.md
@@ -135,12 +131,12 @@ Task format:
 **User Story:** As a [user/developer], I want [action] so that [benefit].
 ```
 
-5. Update `docs/backlog/index.md` after all tasks are written.
+5. Update `docs/backlog/index.md` after all tasks are written (same rules as the `/backlog` skill).
 6. Report how many tasks were created and in which contexts.
 
 ---
 
-## Rules
+### General rules
 
 - Explain trade-offs for every decision (e.g., "CP vs AP", "SQL vs NoSQL for this use case").
 - Use real numbers when estimating (requests/sec, storage in GB, latency in ms).
@@ -149,5 +145,6 @@ Task format:
 - Simplicity: avoid premature optimization; keep the design as simple as possible to solve current problems.
 - Design for Failure: assume components will fail and incorporate redundancy.
 - Use Standardized APIs: REST, GraphQL, or gRPC.
-- Monitoring & Logging: include observability in every design.
-- Never overwrite an existing design file without asking first (only `refine` may update it).
+- Include observability (monitoring, logging, alerting) in every design.
+- Never overwrite an existing design file without asking first — only `refine` may update it.
+- Directory names in kebab-case and lowercase.
