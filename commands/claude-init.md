@@ -139,11 +139,34 @@ Current package layout:
 
 [Summary of what is actively being worked on — update as priorities change]
 
+## Commit Conventions
+
+Follows [Conventional Commits v1.0.0](https://www.conventionalcommits.org/en/v1.0.0/).
+
+Format: `<type>[optional scope]: <description>`
+
+| Type | Use when |
+|------|----------|
+| `feat` | New feature (MINOR in SemVer) |
+| `fix` | Bug fix (PATCH in SemVer) |
+| `docs` | Documentation only |
+| `style` | Formatting, whitespace — no logic change |
+| `refactor` | Code restructure without feature or fix |
+| `perf` | Performance improvement |
+| `test` | Adding or fixing tests |
+| `chore` | Tooling, dependencies, config |
+| `build` | Build system or dependency changes |
+| `ci` | CI/CD configuration changes |
+| `revert` | Reverts a previous commit |
+
+Breaking changes: append `!` before the colon (`feat!:`) and add a `BREAKING CHANGE:` footer.
+
 ## Rules
 
 - No emojis in code or comments.
 - Keep responses concise and practical.
 - If something being built follows a well-known anti-pattern, warn before proceeding.
+- Always use Conventional Commits format when committing.
 ```
 
 ---
