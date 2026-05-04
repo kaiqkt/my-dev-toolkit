@@ -1,18 +1,46 @@
+---
+
+name: spring-boot-integration-testing
+description: >
+  Writes and reviews Spring Boot integration tests in Kotlin following a strict philosophy:
+  real Spring context, real infrastructure via Testcontainers, and only external HTTP calls
+  mocked with MockServer. Use this skill whenever the user wants to write, generate, or review
+  integration tests for a Spring Boot application — even if they just say "write integration tests",
+  "escreve testes de integração", "cria testes de integração", "gera testes", "write tests for this",
+  "review my tests", "revisa os testes", "revisa meus testes", "add tests for this endpoint",
+  "adiciona testes", "adiciona testes para esse endpoint", "testa esse controller", "testa esse serviço",
+  "test this service", "test this controller", "test this endpoint", "preciso de testes",
+  "quero testes de integração", or similar natural language around integration testing in Spring Boot with Kotlin.
+---
+
 # Skill: spring-boot-integration-testing
 
 Writes and reviews Spring Boot integration tests in Kotlin following a strict philosophy: real Spring context, real infrastructure via Testcontainers, and only external HTTP calls mocked with MockServer.
 
 ## Usage
 
-```
-/spring-boot-integration-testing [path or description of the code to test]
-/spring-boot-integration-testing review [path to existing test file]
-```
+Trigger with `/spring-boot-integration-testing` or natural language:
+
+### Write tests
+
+- `/spring-boot-integration-testing [path or description of the code to test]`
+- "write integration tests for X", "escreve testes de integração para X"
+- "cria testes de integração", "gera testes para esse endpoint"
+- "add tests for this controller", "adiciona testes para esse controller"
+- "testa esse serviço", "test this service"
+- "preciso de testes para X", "quero testes de integração"
+
+### Review tests
+
+- `/spring-boot-integration-testing review [path to existing test file]`
+- "review my integration tests", "revisa os testes de integração"
+- "revisa meus testes", "check my tests"
+- "tem algum problema nesses testes?", "are these tests correct?"
 
 ## Behavior
 
-When the command starts with `/spring-boot-integration-testing review`, run the **Review** flow.
-Otherwise, run the **Write** flow.
+When the argument starts with `review` → run the **Review** flow.
+Otherwise → run the **Write** flow.
 
 ---
 
