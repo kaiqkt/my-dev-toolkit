@@ -1,18 +1,34 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-COMMANDS_SRC="$(cd "$(dirname "$0")/commands" && pwd)"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+COMMANDS_SRC="$SCRIPT_DIR/commands"
 COMMANDS_DST="$HOME/.claude/commands"
+SKILLS_SRC="$SCRIPT_DIR/skills"
+SKILLS_DST="$HOME/.claude/skills"
 
 echo "Installing my-dev-toolkit..."
 
 # Install slash commands
 mkdir -p "$COMMANDS_DST"
 for file in "$COMMANDS_SRC"/*.md; do
+  [ -e "$file" ] || continue
   name="$(basename "$file")"
   cp "$file" "$COMMANDS_DST/$name"
   echo "  [commands] $name"
 done
+
+# Install skills
+if [ -d "$SKILLS_SRC" ]; then
+  mkdir -p "$SKILLS_DST"
+  for skill_dir in "$SKILLS_SRC"/*/; do
+    [ -d "$skill_dir" ] || continue
+    name="$(basename "$skill_dir")"
+    mkdir -p "$SKILLS_DST/$name"
+    cp "$skill_dir/SKILL.md" "$SKILLS_DST/$name/SKILL.md"
+    echo "  [skills] $name"
+  done
+fi
 
 # Install MCP servers
 MCP_JSON="$(cd "$(dirname "$0")/mcp" && pwd)/mcp.json"

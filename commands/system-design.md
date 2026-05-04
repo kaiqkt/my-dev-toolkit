@@ -1,72 +1,129 @@
-# Skill: system-design
+---
 
-Guides system design discussions, documents the output, and bulk-imports tasks into the backlog from the result.
+## description: System design discussion and diagramming
 
-> `/backlog` is for adding tasks manually one at a time. `/system-design tasks` is for bulk-importing tasks derived from a saved design document.
+# System Design
 
 ## Usage
 
 ```
 /system-design [topic]
-/system-design refine [topic]
-/system-design tasks [topic]
 ```
 
-## Behavior
+**Examples:**
 
-When the first argument is `refine`, run the **Refine** flow.
-When the first argument is `tasks`, run the **Tasks** flow.
-Otherwise, run the **Design** flow.
+* `/system-design instagram feed`
+* `/system-design payment service`
+* `/system-design url shortener`
 
 ---
 
-### Design flow
+Help me think through the system design for: $ARGUMENTS
 
-Walk through each section below step by step. Ask clarifying questions at each step before moving on. Do not skip sections.
+## Framework
 
-#### 1. Requirements
+Walk through these areas step by step. Ask me clarifying questions at each step before moving on.
+
+---
+
+### 1. Requirements
+
 - What are the functional requirements?
 - What are the non-functional requirements (latency, throughput, availability, consistency)?
 - What scale are we designing for? (users, requests/sec, data volume)
 
-#### 2. High-Level Architecture
-- What are the main components/services?
-- How do they communicate (sync REST/gRPC vs async Kafka/queues)?
-- Draw the architecture using text diagrams.
+---
 
-#### 3. Data Design
+### 2. High-Level Architecture
+
+Define the system structure based on requirements.
+
+#### Steps
+
+1. Identify core components/services
+   - What responsibilities exist?
+   - How should they be grouped?
+
+2. Define the main flow(s)
+   - What is the critical user journey?
+   - Step-by-step interaction between components
+
+3. Define communication patterns
+   - Sync (REST/gRPC) vs Async (Kafka/queues)
+   - Justify trade-offs
+
+4. Draw the architecture
+   - Use text diagrams (Mermaid preferred)
+
+---
+
+### 3. Data Design
+
 - What data needs to be stored?
-- SQL vs NoSQL decisions for each entity (and why).
-- Schema design, indexing strategy, partitioning/sharding if needed.
+- SQL vs NoSQL decisions for each entity (and why)
+- Schema design
+- Indexing strategy
+- Partitioning/sharding if needed
 
-#### 4. API Design
-- Key endpoints between services and to clients.
-- Authentication and authorization approach.
+---
 
-#### 5. Scaling & Performance
+### 4. API Design
+
+- Key endpoints between services and to clients
+- Authentication and authorization approach
+
+---
+
+### 5. Scaling & Performance
+
 - Where are the bottlenecks?
-- Caching strategy (what, where, TTL, invalidation).
-- Database read replicas, connection pooling, query optimization.
-- Horizontal scaling approach.
+- Caching strategy (what, where, TTL, invalidation)
+- Database read replicas
+- Connection pooling
+- Query optimization
+- Horizontal scaling approach
 
-#### 6. Reliability
-- Single points of failure and how to eliminate them.
-- Failure modes and graceful degradation.
-- Monitoring, alerting, circuit breakers.
+---
 
-#### 7. Save the design
+### 6. Reliability
 
-After completing all sections, write the full design to:
+- Single points of failure and how to eliminate them
+- Failure modes and graceful degradation
+- Monitoring, logging and alerting
+- Circuit breakers and retries
 
+---
+
+## Output
+
+At the end of each step, generate a **draft section** before moving on.
+
+### Format
+
+```md
+## [Section Name] (Draft)
+
+### Decisions
+
+- Key decisions made
+
+### Rationale
+
+- Why those decisions were taken
+- Trade-offs considered
+
+### Open Questions
+
+- What is still unclear or needs validation
 ```
-docs/system-design/{topic-slug}.md
-```
 
-Where `{topic-slug}` is the topic in kebab-case lowercase (e.g., `payment-service`).
+---
 
-File structure:
+## Final Output
 
-```markdown
+After all steps are completed, consolidate everything into:
+
+```md
 # System Design: [Topic]
 
 > Status: draft
@@ -74,105 +131,97 @@ File structure:
 > Last updated: [YYYY-MM-DD]
 
 ## Requirements
+
 ...
 
 ## High-Level Architecture
+
 ...
 
 ## Data Design
+
 ...
 
 ## API Design
+
 ...
 
 ## Scaling & Performance
+
 ...
 
 ## Reliability
+
 ...
 
 ## Open Questions
-[Unresolved decisions or trade-offs flagged during the session]
-```
 
-After saving, ask the user if they want to generate backlog tasks from this design.
+- Cross-cutting concerns
+- Trade-offs not fully resolved
+```
 
 ---
 
-### Refine flow
+## Save Design
 
-1. Read `docs/system-design/{topic-slug}.md`. If it does not exist, respond: `No design found for "{topic}". Run /system-design {topic} first.`
-2. Show a one-sentence summary per section.
-3. Ask the user which section to refine or what new concern to address.
-4. Discuss interactively, then update the file:
-   - Update the relevant section(s).
-   - Set `Last updated` to today's date.
-   - Append any new unresolved items to `## Open Questions`.
-5. After saving, ask if they want to generate or update backlog tasks.
+After generating the final output, create a file with the design.
+
+### Option A (recommended)
+
+Save to a topic-based file:
+
+```
+/docs/system-design/{topic-slug}.md
+```
+
+Where `{topic-slug}` is:
+
+- lowercase
+- kebab-case
+- example: `payment-service`, `instagram-feed`
+
+### Option B (simple, less scalable)
+
+Save to a single file:
+
+```
+/docs/system-design.md
+```
+
+Append the new design at the end of the file.
 
 ---
 
-### Tasks flow
+### Rules for saving
 
-1. Read `docs/system-design/{topic-slug}.md`. If it does not exist, respond: `No design found for "{topic}".`
-2. Analyze the design and derive concrete implementation tasks.
-3. For each task, infer feature and context from the design sections (e.g., feature `backend`, context `auth` from API Design).
-4. Create tasks following the backlog structure at `docs/backlog/`:
+- Do NOT overwrite existing files without confirmation
+- If file exists:
+  - Ask whether to overwrite or append
 
-```
-docs/backlog/{feature}/{context}/tasks.md
-```
-
-Task format:
-
-```markdown
-## [Task Title]
-
-**Status:** `todo`
-**Description:** [Derived from the design]
-**User Story:** As a [user/developer], I want [action] so that [benefit].
-
-[Optional Mermaid diagram if it helps clarify the scope of the task]
-```
-
-5. Update `docs/backlog/index.md` after all tasks are written (same rules as the `/backlog` skill).
-6. Report how many tasks were created and in which contexts.
+- Always confirm after saving:
+  - "Design saved to [path]"
 
 ---
 
-### Mermaid diagrams
+## Behavior
 
-Use Mermaid diagrams to illustrate architecture, data models, and flows. Apply them in the following contexts:
-
-- **High-Level Architecture** — use `graph TD` or `graph LR` to show services and communication paths. Use `C4Context` when the system has external integrations (third-parties, gateways, other services).
-- **Data Design** — use `erDiagram` for entity relationships and schema structure. Use `stateDiagram-v2` when an entity has a relevant lifecycle (e.g., order status, payment state).
-- **Flows** (within tasks or design sections) — use `sequenceDiagram` for request/response flows, or `flowchart` for decision logic.
-
-Always embed diagrams inside fenced code blocks:
-
-````markdown
-```mermaid
-graph TD
-  A[Client] --> B[API Gateway]
-  B --> C[Auth Service]
-  B --> D[Order Service]
-  D --> E[(PostgreSQL)]
-```
-````
-
-Include a diagram wherever a visual representation reduces ambiguity. Do not add diagrams for trivial relationships that are clear from text alone.
+- Do not skip steps
+- Do not move forward without confirming with the user
+- Ask questions in small batches (avoid overwhelming)
+- Challenge vague answers and push for concrete numbers
+- Do not assume — validate everything
+- Keep answers concise but structured
+- Always extract **decisions**, not just summaries
 
 ---
 
-### General rules
+## Rules
 
-- Explain trade-offs for every decision (e.g., "CP vs AP", "SQL vs NoSQL for this use case").
-- Use real numbers when estimating (requests/sec, storage in GB, latency in ms).
-- Use the technologies present in the project or explicitly requested by the user — do not assume or suggest alternatives unless asked.
-- This is a learning exercise — teach me the reasoning, not just the answer.
-- Simplicity: avoid premature optimization; keep the design as simple as possible to solve current problems.
-- Design for Failure: assume components will fail and incorporate redundancy.
-- Use Standardized APIs: REST, GraphQL, or gRPC.
-- Include observability (monitoring, logging, alerting) in every design.
-- Never overwrite an existing design file without asking first — only `refine` may update it.
-- Directory names in kebab-case and lowercase.
+- Explain trade-offs for every decision (e.g., "CP vs AP", "SQL vs NoSQL")
+- Use real numbers when estimating (requests/sec, storage in GB, latency in ms)
+- Prefer simplicity over premature optimization
+- Design for failure (assume components will fail)
+- Use standardized APIs (REST, GraphQL, gRPC)
+- Always include observability (metrics, logs, tracing)
+- Reference technologies I know: Project Technologies
+- This is a learning exercise — teach me the reasoning, not just the answer
