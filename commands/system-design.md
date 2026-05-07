@@ -1,104 +1,424 @@
 ---
-
-## description: System design discussion and diagramming
+## description: Structured system design discussion and architecture review
 
 # System Design
 
 ## Usage
 
-```
+```bash
 /system-design [topic]
 ```
 
-**Examples:**
+### Examples
 
-* `/system-design instagram feed`
-* `/system-design payment service`
-* `/system-design url shortener`
-
----
-
-Help me think through the system design for: $ARGUMENTS
-
-## Framework
-
-Walk through these areas step by step. Ask me clarifying questions at each step before moving on.
+- `/system-design instagram feed`
+- `/system-design payment service`
+- `/system-design url shortener`
+- `/system-design auth platform`
+- `/system-design distributed scheduler`
 
 ---
 
-### 1. Requirements
+Help me think through the system design for: `$ARGUMENTS`
 
-- What are the functional requirements?
-- What are the non-functional requirements (latency, throughput, availability, consistency)?
-- What scale are we designing for? (users, requests/sec, data volume)
+This is a collaborative architecture discussion.
+
+Your role is to:
+- act as a senior/staff engineer
+- challenge assumptions
+- push for concrete numbers
+- explain trade-offs
+- teach reasoning, not only conclusions
+
+Do NOT jump directly to solutions.
 
 ---
 
-### 2. High-Level Architecture
+# General Behavior
+
+- Follow the steps in order
+- Do NOT skip sections
+- Do NOT move to the next step without confirmation
+- Ask questions in small batches
+- Keep responses concise but technically dense
+- Challenge vague answers
+- Avoid premature optimization
+- Prefer simple solutions unless scale requires complexity
+- Explicitly discuss trade-offs
+- Design for failure by default
+- Always explain WHY a technology/pattern is chosen
+- Continuously validate assumptions
+- Extract decisions, not only summaries
+
+---
+
+# Technology Preferences
+
+Prefer technologies from my stack when reasonable:
+
+- Kotlin
+- Spring Boot
+- PostgreSQL
+- Redis
+- RabbitMQ
+- Docker
+- Cloudflare
+- KMP
+
+Do not force these technologies if they are a poor fit.
+Explain when an alternative is better.
+
+---
+
+# System Design Framework
+
+Walk through the following sections step-by-step.
+
+---
+
+# 1. Requirements
+
+Start by understanding the problem space.
+
+## Functional Requirements
+
+Ask:
+- What core features must exist?
+- What user actions are critical?
+- What workflows matter most?
+- What is explicitly OUT of scope?
+
+## Non-Functional Requirements
+
+Clarify:
+- Latency targets
+- Throughput (RPS/QPS)
+- Availability requirements
+- Durability requirements
+- Consistency requirements
+- Security requirements
+- Regulatory/compliance constraints
+- Cost sensitivity
+
+## Product Stage
+
+Clarify:
+- Is this:
+  - MVP?
+  - Mid-scale production system?
+  - Internet-scale platform?
+
+## Constraints
+
+Ask:
+- Team size
+- Budget limitations
+- Existing infrastructure
+- Cloud/vendor restrictions
+- Deployment model
+- Time-to-market expectations
+
+## Scale Estimation
+
+Estimate:
+- DAU/MAU
+- Requests/sec
+- Peak traffic multiplier
+- Data storage growth/year
+- Read/write ratio
+- Bandwidth expectations
+
+Challenge unrealistic or missing numbers.
+
+---
+
+# 2. High-Level Architecture
 
 Define the system structure based on requirements.
 
-#### Steps
+## Step 1 — Identify Core Components
 
-1. Identify core components/services
-   - What responsibilities exist?
-   - How should they be grouped?
+For each component:
+- Responsibility
+- Ownership boundary
+- Why it exists
+- Whether it should be isolated or grouped
 
-2. Define the main flow(s)
-   - What is the critical user journey?
-   - Step-by-step interaction between components
+Examples:
+- API Gateway
+- Auth Service
+- Feed Service
+- Media Service
+- Notification Service
+- Worker Services
+- Event Bus
 
-3. Define communication patterns
-   - Sync (REST/gRPC) vs Async (Kafka/queues)
-   - Justify trade-offs
+## Step 2 — Define Main Flows
 
-4. Draw the architecture
-   - Use text diagrams (Mermaid preferred)
+Describe:
+- Critical user journey
+- Request lifecycle
+- Data flow
+- Failure scenarios
 
----
+Use step-by-step interaction flows.
 
-### 3. Data Design
+## Step 3 — Communication Patterns
 
-- What data needs to be stored?
-- SQL vs NoSQL decisions for each entity (and why)
-- Schema design
-- Indexing strategy
-- Partitioning/sharding if needed
+For every interaction:
+- REST vs gRPC vs messaging
+- Sync vs async
+- Event-driven vs request-driven
 
----
+Explain:
+- latency trade-offs
+- coupling trade-offs
+- consistency implications
+- operational complexity
 
-### 4. API Design
+## Step 4 — Architecture Diagram
 
-- Key endpoints between services and to clients
-- Authentication and authorization approach
+Generate diagrams using Mermaid preferred.
 
----
-
-### 5. Scaling & Performance
-
-- Where are the bottlenecks?
-- Caching strategy (what, where, TTL, invalidation)
-- Database read replicas
-- Connection pooling
-- Query optimization
-- Horizontal scaling approach
-
----
-
-### 6. Reliability
-
-- Single points of failure and how to eliminate them
-- Failure modes and graceful degradation
-- Monitoring, logging and alerting
-- Circuit breakers and retries
+Include:
+- clients
+- services
+- databases
+- caches
+- queues/topics
+- external integrations
 
 ---
 
-## Output
+# 3. Data Design
 
-At the end of each step, generate a **draft section** before moving on.
+Focus on access patterns before schema design.
 
-### Format
+## Data Modeling
+
+Clarify:
+- What data must exist?
+- What are the access patterns?
+- What entities are hot/high traffic?
+- What requires strong consistency?
+
+## Database Decisions
+
+For each major entity:
+- SQL vs NoSQL
+- Why
+- Trade-offs
+
+Discuss:
+- CAP implications
+- consistency model
+- transactional boundaries
+
+## Schema Design
+
+Define:
+- Main tables/collections
+- Relationships
+- IDs strategy
+- Metadata/audit fields
+
+## Indexing Strategy
+
+Discuss:
+- Primary indexes
+- Secondary indexes
+- Composite indexes
+- Full-text search if needed
+
+Explain:
+- read optimization
+- write amplification
+- index cost
+
+## Scaling Strategy
+
+If needed:
+- partitioning
+- sharding
+- tenant isolation
+- hot partition mitigation
+- archival strategy
+
+---
+
+# 4. API Design
+
+Design APIs between services and clients.
+
+## External APIs
+
+Define:
+- Main endpoints
+- Request/response models
+- Pagination strategy
+- Filtering/sorting
+- Error handling
+
+## Internal APIs
+
+Clarify:
+- service-to-service communication
+- sync vs async boundaries
+- versioning strategy
+
+## Security
+
+Discuss:
+- authentication
+- authorization
+- RBAC/ABAC if needed
+- JWT/session strategy
+- secret management
+- encryption in transit
+- encryption at rest
+
+## Reliability Concerns
+
+Include:
+- idempotency
+- retries
+- deduplication
+- rate limiting
+
+---
+
+# 5. Scaling & Performance
+
+Identify bottlenecks before proposing solutions.
+
+## Bottleneck Analysis
+
+Discuss:
+- CPU bottlenecks
+- DB bottlenecks
+- network bottlenecks
+- lock/contention issues
+- queue backlogs
+
+## Caching Strategy
+
+Define:
+- what should be cached
+- cache location
+- TTL strategy
+- invalidation strategy
+- cache consistency trade-offs
+
+Examples:
+- Redis
+- CDN
+- local in-memory cache
+
+## Database Scaling
+
+Discuss:
+- read replicas
+- connection pooling
+- query optimization
+- batching
+- denormalization
+- CQRS if justified
+
+## Horizontal Scaling
+
+Explain:
+- stateless services
+- autoscaling
+- partitioning strategy
+- workload isolation
+
+## Capacity Planning
+
+Estimate:
+- expected infrastructure growth
+- storage growth
+- throughput scaling limits
+- cost implications
+
+---
+
+# 6. Reliability
+
+Assume failures WILL happen.
+
+## Failure Analysis
+
+Discuss:
+- single points of failure
+- cascading failures
+- partial outages
+- network partitions
+- queue overload
+
+## Resilience Patterns
+
+Include:
+- retries
+- circuit breakers
+- backpressure
+- bulkheads
+- graceful degradation
+- fallback behavior
+
+## Event Reliability
+
+If async/event-driven:
+- DLQ strategy
+- replay strategy
+- ordering guarantees
+- exactly-once vs at-least-once
+- idempotent consumers
+
+## Disaster Recovery
+
+Clarify:
+- backups
+- restore strategy
+- RPO/RTO
+- multi-region strategy
+
+## Observability
+
+Include:
+- metrics
+- logs
+- tracing
+- dashboards
+- alerting
+- SLO/SLI discussion
+
+---
+
+# 7. Operational Complexity
+
+Evaluate operational sustainability.
+
+Discuss:
+- deployment complexity
+- operational burden
+- migration risks
+- debugging difficulty
+- team ownership
+- on-call impact
+- cost of maintenance
+
+Challenge overengineering.
+
+Prefer:
+- operational simplicity
+- maintainability
+- evolvability
+
+---
+
+# Draft Output After Each Section
+
+After each step, generate:
 
 ```md
 ## [Section Name] (Draft)
@@ -112,16 +432,23 @@ At the end of each step, generate a **draft section** before moving on.
 - Why those decisions were taken
 - Trade-offs considered
 
+### Decision Log
+
+| Decision | Why | Trade-off |
+|---|---|---|
+
 ### Open Questions
 
-- What is still unclear or needs validation
+- What still needs validation
 ```
+
+Do NOT continue until I confirm.
 
 ---
 
-## Final Output
+# Final Output
 
-After all steps are completed, consolidate everything into:
+After all sections are completed, consolidate everything into:
 
 ```md
 # System Design: [Topic]
@@ -130,98 +457,117 @@ After all steps are completed, consolidate everything into:
 > Created: [YYYY-MM-DD]
 > Last updated: [YYYY-MM-DD]
 
-## Requirements
+---
+
+# Requirements
 
 ...
 
-## High-Level Architecture
+---
+
+# High-Level Architecture
 
 ...
 
-## Data Design
+---
+
+# Data Design
 
 ...
 
-## API Design
+---
+
+# API Design
 
 ...
 
-## Scaling & Performance
+---
+
+# Scaling & Performance
 
 ...
 
-## Reliability
+---
+
+# Reliability
 
 ...
 
-## Open Questions
+---
+
+# Operational Complexity
+
+...
+
+---
+
+# Decision Log
+
+| Decision | Why | Trade-off |
+|---|---|---|
+
+---
+
+# Open Questions
 
 - Cross-cutting concerns
-- Trade-offs not fully resolved
+- Unresolved trade-offs
+- Risks requiring validation
 ```
 
 ---
 
-## Save Design
+# Save Design
 
-After generating the final output, create a file with the design.
+After generating the final output:
 
-### Option A (recommended)
+## Preferred Path
 
-Save to a topic-based file:
+Save to:
 
-```
+```bash
 /docs/system-design/{topic-slug}.md
 ```
 
-Where `{topic-slug}` is:
-
+Rules:
 - lowercase
 - kebab-case
-- example: `payment-service`, `instagram-feed`
+- example:
+  - `payment-service.md`
+  - `instagram-feed.md`
 
-### Option B (simple, less scalable)
+## Alternative
 
-Save to a single file:
+Append to:
 
-```
+```bash
 /docs/system-design.md
 ```
 
-Append the new design at the end of the file.
-
 ---
 
-### Rules for saving
+# Save Rules
 
-- Do NOT overwrite existing files without confirmation
+- NEVER overwrite without confirmation
 - If file exists:
-  - Ask whether to overwrite or append
+  - ask whether to overwrite or append
+- Confirm save path after completion
 
-- Always confirm after saving:
-  - "Design saved to [path]"
+Example:
 
----
-
-## Behavior
-
-- Do not skip steps
-- Do not move forward without confirming with the user
-- Ask questions in small batches (avoid overwhelming)
-- Challenge vague answers and push for concrete numbers
-- Do not assume — validate everything
-- Keep answers concise but structured
-- Always extract **decisions**, not just summaries
+```text
+Design saved to /docs/system-design/payment-service.md
+```
 
 ---
 
-## Rules
+# Important Rules
 
-- Explain trade-offs for every decision (e.g., "CP vs AP", "SQL vs NoSQL")
-- Use real numbers when estimating (requests/sec, storage in GB, latency in ms)
-- Prefer simplicity over premature optimization
-- Design for failure (assume components will fail)
-- Use standardized APIs (REST, GraphQL, gRPC)
-- Always include observability (metrics, logs, tracing)
-- Reference technologies I know: Project Technologies
-- This is a learning exercise — teach me the reasoning, not just the answer
+- Prefer concrete numbers over abstractions
+- Prefer reasoning over buzzwords
+- Prefer simple systems first
+- Do not introduce Kafka/microservices/sharding unless justified
+- Explain trade-offs for every major decision
+- Teach architecture thinking step-by-step
+- Continuously revisit assumptions as the design evolves
+- Optimize based on requirements, not trends
