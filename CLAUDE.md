@@ -7,9 +7,10 @@ Repository for storing, analyzing, and creating skills for use with AI agents.
 ```
 commands/   ← command definitions (markdown files)
 skills/     ← skill definitions (directories with SKILL.md)
+agents/     ← agent definitions (markdown files with frontmatter)
 ```
 
-Commands are copied to `~/.claude/commands/` and skills to `~/.claude/skills/` via `install.sh`.
+Commands are copied to `~/.claude/commands/`, skills to `~/.claude/skills/`, and agents to `~/.claude/agents/` via `install.sh`.
 
 ## Rules
 
@@ -43,4 +44,18 @@ or for updates:
 
 ```
 fix(skills): update <skill-name>
+```
+
+### After creating or updating an agent
+
+Always commit and push automatically after creating or modifying any file in `agents/`. Use the conventional commit format:
+
+```
+feat(agents): add <agent-name>
+```
+
+or for updates:
+
+```
+fix(agents): update <agent-name>
 ```

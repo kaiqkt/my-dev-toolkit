@@ -30,6 +30,20 @@ if [ -d "$SKILLS_SRC" ]; then
   done
 fi
 
+# Install agents
+AGENTS_SRC="$SCRIPT_DIR/agents"
+AGENTS_DST="$HOME/.claude/agents"
+
+if [ -d "$AGENTS_SRC" ]; then
+  mkdir -p "$AGENTS_DST"
+  for file in "$AGENTS_SRC"/*.md; do
+    [ -e "$file" ] || continue
+    name="$(basename "$file")"
+    cp "$file" "$AGENTS_DST/$name"
+    echo "  [agents] $name"
+  done
+fi
+
 # Install MCP servers
 MCP_JSON="$(cd "$(dirname "$0")/mcp" && pwd)/mcp.json"
 
