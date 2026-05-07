@@ -17,6 +17,15 @@ for file in "$COMMANDS_SRC"/*.md; do
   cp "$file" "$COMMANDS_DST/$name"
   echo "  [commands] $name"
 done
+# Remove stale commands
+for file in "$COMMANDS_DST"/*.md; do
+  [ -e "$file" ] || continue
+  name="$(basename "$file")"
+  if [ ! -f "$COMMANDS_SRC/$name" ]; then
+    rm "$file"
+    echo "  [commands] removed stale: $name"
+  fi
+done
 
 # Install skills
 if [ -d "$SKILLS_SRC" ]; then
@@ -27,6 +36,15 @@ if [ -d "$SKILLS_SRC" ]; then
     mkdir -p "$SKILLS_DST/$name"
     cp "$skill_dir/SKILL.md" "$SKILLS_DST/$name/SKILL.md"
     echo "  [skills] $name"
+  done
+  # Remove stale skills
+  for skill_dir in "$SKILLS_DST"/*/; do
+    [ -d "$skill_dir" ] || continue
+    name="$(basename "$skill_dir")"
+    if [ ! -d "$SKILLS_SRC/$name" ]; then
+      rm -rf "$skill_dir"
+      echo "  [skills] removed stale: $name"
+    fi
   done
 fi
 
@@ -41,6 +59,15 @@ if [ -d "$AGENTS_SRC" ]; then
     name="$(basename "$file")"
     cp "$file" "$AGENTS_DST/$name"
     echo "  [agents] $name"
+  done
+  # Remove stale agents
+  for file in "$AGENTS_DST"/*.md; do
+    [ -e "$file" ] || continue
+    name="$(basename "$file")"
+    if [ ! -f "$AGENTS_SRC/$name" ]; then
+      rm "$file"
+      echo "  [agents] removed stale: $name"
+    fi
   done
 fi
 
