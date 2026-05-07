@@ -109,12 +109,19 @@ Ask:
 - What is essential vs. nice-to-have?
 - If you had 1 week, what would you build?
 
-### Experience
+### Experience & UI
 
-Ask:
-- How does the user enter the product?
-- What do they do?
-- What do they get at the end?
+Do NOT generate UI layouts or invent visual references.
+
+Instead, ask the user to provide:
+- References to products with similar UI/UX (screenshots, URLs, app names)
+- Description of the desired experience in their own words
+- Any sketches, wireframes, or mockups they already have
+
+Only after receiving user input, summarize what was described.
+
+If the user has no references yet, prompt:
+> "Do you have any visual references — apps, screenshots, or links — that show the kind of experience you want? Even rough ideas help."
 
 Apply YAGNI ruthlessly. Challenge feature bloat.
 
