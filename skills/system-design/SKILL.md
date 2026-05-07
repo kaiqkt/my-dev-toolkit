@@ -1,5 +1,17 @@
 ---
-## description: Structured system design discussion and architecture review
+
+name: system-design
+description: >
+  Structured system design discussion and architecture review. Acts as a senior/staff
+  engineer to collaboratively walk through requirements, high-level architecture, data
+  design, API design, scaling, reliability, and operational complexity — one section at
+  a time with confirmation. Use this skill whenever the user wants to design a system,
+  discuss architecture, or think through technical trade-offs — even if they just say
+  "system design", "design this system", "arquitetura", "vamos fazer um system design",
+  "design de sistema", "preciso arquitetar", "me ajuda com a arquitetura", or similar
+  natural language around system architecture and design.
+
+---
 
 # System Design
 
