@@ -1,13 +1,15 @@
 # my-dev-toolkit
 
-A personal Claude Code setup — slash commands, MCP servers, and project templates that make AI-assisted development faster and more consistent.
+Personal Claude Code setup — slash commands, skills, agents, and MCP servers for faster and more consistent AI-assisted development.
 
 ## What's Inside
 
-| Component | Count | What It Does |
-|-----------|-------|--------------|
-| Slash Commands | 4 | One-command workflows (`/backlog`, `/claude-init`, `/mcp`, `/system-design`) |
-| MCP Servers | 2 | External tool integrations (docs lookup, step-by-step reasoning) |
+| Component | Count |
+|-----------|-------|
+| Commands | 1 |
+| Skills | 7 |
+| Agents | 1 |
+| MCP Servers | 2 |
 
 ## Install
 
@@ -28,12 +30,25 @@ To install MCP servers, open Claude Code and run:
 
 | Command | Description |
 |---------|-------------|
-| `/backlog` | Create and manage tasks in a local backlog (`docs/backlog/`) |
-| `/backlog list` | List all tasks across the backlog in a table |
 | `/claude-init` | Generate a `CLAUDE.md` for any project |
-| `/mcp` | Install MCP servers from `mcp/mcp.json` |
-| `/mcp list` | List available MCP servers |
-| `/system-design` | Guided system design workflow |
+
+## Skills
+
+| Skill | Description |
+|-------|-------------|
+| `/conventional-commit` | Generate conventional commit messages following the v1.0.0 spec |
+| `/idea` | Develop and structure ideas through a guided flow: concept → problem → audience → vision → storyboard → competitor research → essence |
+| `/implement-from-spec` | Implement a feature from a spec file in `docs/specs/` — decomposes into tasks, runs in parallel, validates against acceptance criteria |
+| `/review-against-spec` | Review implementation against a spec file — reports each acceptance criterion as covered, partial, or missing |
+| `/sdd` | Create per-feature Software Design Documents from a system design output |
+| `/spring-boot-integration-testing` | Write and review Spring Boot integration tests in Kotlin (real Spring context, Testcontainers, MockServer) |
+| `/system-design` | Guided system design discussion — walks through requirements, architecture, data design, API design, scaling, and reliability |
+
+## Agents
+
+| Agent | Description |
+|-------|-------------|
+| `competitor-research` | Research similar and competing products — returns a structured comparison table with products, audiences, differentiators, and gaps |
 
 ## MCP Servers
 
