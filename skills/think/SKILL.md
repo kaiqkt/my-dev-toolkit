@@ -1,6 +1,6 @@
 ---
 
-name: idea
+name: think
 description: >
   Develops and structures ideas collaboratively through a guided linear flow:
   concept, problem, audience, product vision, usage storyboard, competitor research,
@@ -12,7 +12,7 @@ description: >
 
 ---
 
-# Skill: idea
+# Skill: think
 
 Develops and structures ideas through a guided linear conversation. Works for both vague ideas and already-formed concepts.
 
@@ -20,9 +20,9 @@ Develops and structures ideas through a guided linear conversation. Works for bo
 
 ## Usage
 
-Trigger with `/idea` or natural language:
+Trigger with `/think` or natural language:
 
-- `/idea [description]`
+- `/think [description]`
 - "tenho uma ideia", "quero desenvolver uma ideia"
 - "I have an idea", "let's explore this idea"
 - "me ajuda com essa ideia", "quero estruturar uma ideia"
@@ -285,7 +285,7 @@ After all sections are completed, consolidate into:
 After generating the final output, save to:
 
 ```
-/docs/idea/{idea-slug}.md
+/docs/ideas/{idea-slug}.md
 ```
 
 Rules:
@@ -300,5 +300,5 @@ Rules:
 - Confirm path after saving:
 
 ```
-Idea saved to /docs/idea/idea-slug.md
+Idea saved to /docs/ideas/idea-slug.md
 ```

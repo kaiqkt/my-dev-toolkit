@@ -37,7 +37,7 @@ To install MCP servers, open Claude Code and run:
 | Skill | Description |
 |-------|-------------|
 | `/conventional-commit` | Generate conventional commit messages following the v1.0.0 spec |
-| `/idea` | Develop and structure ideas through a guided flow: concept → problem → audience → vision → storyboard → competitor research → essence |
+| `/think` | Develop and structure ideas through a guided flow: concept → problem → audience → vision → storyboard → competitor research → essence |
 | `/implement-from-spec` | Implement a feature from a spec file in `docs/specs/` — decomposes into tasks, runs in parallel, validates against acceptance criteria |
 | `/review-against-spec` | Review implementation against a spec file — reports each acceptance criterion as covered, partial, or missing |
 | `/sdd` | Create per-feature Software Design Documents from a system design output |
